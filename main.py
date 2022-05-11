@@ -76,34 +76,14 @@ class Lecteur_Image(object):
             self.index_img = int(self.liste_all_images.index(self.img_nom)+1)
             if self.index_img > len(self.liste_all_images) - 1:
                 self.index_img = 0
-            self.label_liste_nombre_image.config(text ="Image "+str(self.index_img+1)+" sur "+str(len(self.liste_all_images)))
-            self.prochaine_image = str(self.img_dossier+"/"+self.liste_all_images[self.index_img])
-            self.img_nom = os.path.basename(self.prochaine_image)
-            self.affichage_image_label_nom.config(text=self.img_nom)
-            self.image = Image.open(self.prochaine_image)
-            self.s = self.image.size
-            if self.s[0] > 1600 or self.s[1] > 900:
-                self.resize_image()
-            self.image = ImageTk.PhotoImage(self.image)
-            self.affichage_image_label.config(image=self.image, height=900, width=1600)
-            self.affichage_image_label.image = self.image
+            self.change_image()
 
     def precedente_image_methode(self):
         if self.img_dossier_liste != []:
             self.index_img = int(self.liste_all_images.index(self.img_nom)-1)
             if self.index_img < 0:
                 self.index_img = len(self.liste_all_images) - 1
-            self.label_liste_nombre_image.config(text ="Image "+str(self.index_img+1)+" sur "+str(len(self.liste_all_images)))
-            self.precedente_image = str(self.img_dossier+"/"+self.liste_all_images[self.index_img])
-            self.img_nom = os.path.basename(self.precedente_image)
-            self.affichage_image_label_nom.config(text=self.img_nom)
-            self.image = Image.open(self.precedente_image)
-            self.s = self.image.size
-            if self.s[0] > 1600 or self.s[1] > 900:
-                self.resize_image()
-            self.image = ImageTk.PhotoImage(image = self.image)
-            self.affichage_image_label.config(image=self.image,height=900,width=1600)
-            self.affichage_image_label.image = self.image
+            self.change_image()
 
     def resize_image(self):
         largeur_ratio = 1600 / self.s[0]
@@ -112,6 +92,19 @@ class Lecteur_Image(object):
         w =  int(round(self.s[0] * meilleur_ratio))
         h = int(round(self.s[1] * meilleur_ratio))
         self.image = self.image.resize((w,h))
+    
+    def change_image(self):
+        self.label_liste_nombre_image.config(text ="Image "+str(self.index_img+1)+" sur "+str(len(self.liste_all_images)))
+        self.precedente_image = str(self.img_dossier+"/"+self.liste_all_images[self.index_img])
+        self.img_nom = os.path.basename(self.precedente_image)
+        self.affichage_image_label_nom.config(text=self.img_nom)
+        self.image = Image.open(self.precedente_image)
+        self.s = self.image.size
+        if self.s[0] > 1600 or self.s[1] > 900:
+            self.resize_image()
+        self.image = ImageTk.PhotoImage(image = self.image)
+        self.affichage_image_label.config(image=self.image,height=900,width=1600)
+        self.affichage_image_label.image = self.image
 
 if __name__ == "__main__":
     app = Lecteur_Image()
