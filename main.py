@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter.font import BOLD, Font
 from tkinter import filedialog as tfd
 from tkinter import messagebox as tmb
-import sys, json, os, sys, PIL
+import sys, os, sys, PIL
 from PIL import ImageTk, Image
 
 class Lecteur_Image(object):
