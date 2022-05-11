@@ -85,7 +85,7 @@ class Lecteur_Image(object):
                 self.index_img = len(self.liste_all_images) - 1
             self.change_image()
 
-    def resize_image(self):
+    def resize_image(self): #resize l'image si elle ne rentre pas dans le frame de 1600x900
         largeur_ratio = 1600 / self.s[0]
         hauteur_ratio = 900 / self.s[1]
         meilleur_ratio = min(largeur_ratio, hauteur_ratio)
