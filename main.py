@@ -1,9 +1,7 @@
-
 from tkinter import *
-from tkinter.font import BOLD, Font
 from tkinter import filedialog as tfd
 from tkinter import messagebox as tmb
-import sys, os, sys, PIL
+import sys, os, PIL
 from PIL import ImageTk, Image
 
 class Lecteur_Image(object):
@@ -18,11 +16,9 @@ class Lecteur_Image(object):
         self.fenetre.title("PyPICTURES")
         self.fenetre.config(background = '#283f4a')
         self.fenetre.state('zoomed') #met la fenetre en plein écran fenetré
-        # Polices
-        self.bold25 = Font(self.fenetre, size = 25, weight = BOLD)
         # Variables et listes
         self.boutons_apres = False
-        self.filetypes = [("Tous les fichiers","*.*"),(".png","*.png"),(".jpeg","*.jpeg"),(".gif","*.gif"),(".jpg","*.jpg")]
+        self.filetypes = [("Tous les fichiers","*.*"),(".png","*.png"),(".jpeg","*.jpeg"),(".gif","*.gif"),(".jpg","*.jpg"),(".bmp","*.bmp"),(".ico","*.ico"),(".webp","*.webp")]
         ###########################################################################################################################################
         # Frame Boutons
         self.affichage_boutons_frame = Frame(self.fenetre, background = '#283f4a')
@@ -56,7 +52,7 @@ class Lecteur_Image(object):
             self.img_dossier_liste = os.listdir(self.img_dossier)
             self.liste_all_images = []
             for item in self.img_dossier_liste:
-                if item.endswith(('.png', '.jpeg', '.gif', '.jpg')):
+                if item.endswith(('.png', '.jpeg', '.gif', '.jpg', '.ico', '.bmp', '.webp')):
                     self.liste_all_images.append(item)
                 else:
                     pass
@@ -75,6 +71,8 @@ class Lecteur_Image(object):
                 self.label_liste_nombre_image.config(text = f"Image {self.index_img + 1} sur {len(self.liste_all_images)}")
         except PIL.UnidentifiedImageError:
             tmb.showerror(title = "Erreur", message = "Le fichier selectionné n'est pas une image.")
+        except PermissionError:
+            tmb.showerror(title = "Erreur", message = "Vous n'avez pas la permission d'accéder à ce dossier.")
 
     def prochaine_image_methode(self):
         if self.img_dossier_liste != []:
@@ -98,7 +96,7 @@ class Lecteur_Image(object):
     
     def change_image(self):
         self.label_liste_nombre_image.config(text = f"Image {self.index_img + 1} sur {len(self.liste_all_images)}")
-        self.precedente_image = str(self.img_dossier + "/" + self.liste_all_images[self.index_img])
+        self.precedente_image = f"{self.img_dossier}/{self.liste_all_images[self.index_img]}"
         self.img_nom = os.path.basename(self.precedente_image)
         self.affichage_image_label_nom.config(text = self.img_nom)
         self.image = Image.open(self.precedente_image)
