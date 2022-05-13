@@ -19,7 +19,6 @@ class Lecteur_Image(object):
         # Variables et listes
         self.boutons_apres = False
         self.filetypes = [("Tous les fichiers","*.*"),(".png","*.png"),(".jpeg","*.jpeg"),(".gif","*.gif"),(".jpg","*.jpg"),(".bmp","*.bmp"),(".ico","*.ico"),(".webp","*.webp")]
-        ###########################################################################################################################################
         # Frame Boutons
         self.affichage_boutons_frame = Frame(self.fenetre, background = '#283f4a')
         self.affichage_boutons_frame.pack(side = TOP, padx = 5, pady = 5)
@@ -28,15 +27,13 @@ class Lecteur_Image(object):
         self.affichage_boutons_ajouter.pack()
         self.affichage_image_label_nom = Label(self.affichage_boutons_frame, background = '#283f4a', foreground = "white")
         self.affichage_image_label_nom.pack()
-        ###########################################################################################################################################
         # Frame Image
         self.affichage_image_frame = Frame(self.fenetre, background = '#283f4a')
         self.affichage_image_frame.pack(side = TOP, padx = 5)
         # Label Image -> Frame Image
         self.affichage_image_label = Label(self.affichage_image_frame, background = '#283f4a')
         self.affichage_image_label.pack()
-        ###########################################################################################################################################
-
+    
     def afficher_image_choix(self):
         try:
             self.img = tfd.askopenfilename(title = "Choisissez un fichier à renommer", filetypes = self.filetypes)
