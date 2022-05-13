@@ -10,9 +10,14 @@ class Lecteur_Image(object):
     def __init__(self):
         # Paramètres fenetre
         self.fenetre = Tk()
-        self.fenetre.geometry("1920x1080")
+        self.largeur_fenetre = self.fenetre.winfo_screenwidth()               
+        self.hauteur_fenetre = self.fenetre.winfo_screenheight()
+        self.largeur_fenetre_image = self.largeur_fenetre - 50
+        self.hauteur_fenetre_image = self.hauteur_fenetre - 200
+        self.fenetre.geometry(f"{self.largeur_fenetre}x{self.hauteur_fenetre}")
         self.fenetre.title("PyPICTURES")
         self.fenetre.config(background = '#283f4a')
+        self.fenetre.state('zoomed') #met la fenetre en plein écran fenetré
         # Polices
         self.bold25 = Font(self.fenetre, size = 25, weight = BOLD)
         # Variables et listes
@@ -41,10 +46,10 @@ class Lecteur_Image(object):
             self.img = tfd.askopenfilename(title = "Choisissez un fichier à renommer", filetypes = self.filetypes)
             self.image = Image.open(self.img)
             self.s = self.image.size
-            if self.s[0] > 1600 or self.s[1] > 900:
+            if self.s[0] > self.largeur_fenetre_image or self.s[1] > self.hauteur_fenetre_image:
                 self.resize_image()
             self.image = ImageTk.PhotoImage(self.image)
-            self.affichage_image_label.config(image = self.image, height = 900, width = 1600)
+            self.affichage_image_label.config(image = self.image, height = self.hauteur_fenetre_image, width = self.hauteur_fenetre_image)
             self.img_nom = os.path.basename(self.img)
             self.affichage_image_label_nom.config(text = self.img_nom)
             self.img_dossier = os.path.dirname(self.img)
@@ -67,7 +72,7 @@ class Lecteur_Image(object):
                 self.boutons_apres = True
             if self.boutons_apres == True:
                 self.index_img = int(self.liste_all_images.index(self.img_nom))
-                self.label_liste_nombre_image.config(text = "Image " + str(self.index_img + 1) + " sur " + str(len(self.liste_all_images)))
+                self.label_liste_nombre_image.config(text = f"Image {self.index_img + 1} sur {len(self.liste_all_images)}")
         except PIL.UnidentifiedImageError:
             tmb.showerror(title = "Erreur", message = "Le fichier selectionné n'est pas une image.")
 
@@ -86,24 +91,22 @@ class Lecteur_Image(object):
             self.change_image()
 
     def resize_image(self): #resize l'image si elle ne rentre pas dans le frame de 1600x900
-        largeur_ratio = 1600 / self.s[0]
-        hauteur_ratio = 900 / self.s[1]
+        largeur_ratio, hauteur_ratio = self.largeur_fenetre / self.s[0], self.hauteur_fenetre_image / self.s[1]
         meilleur_ratio = min(largeur_ratio, hauteur_ratio)
-        w =  int(round(self.s[0] * meilleur_ratio))
-        h = int(round(self.s[1] * meilleur_ratio))
+        w, h =  int(round(self.s[0] * meilleur_ratio)), int(round(self.s[1] * meilleur_ratio))
         self.image = self.image.resize((w,h))
     
     def change_image(self):
-        self.label_liste_nombre_image.config(text = "Image " +str(self.index_img+1) + " sur " + str(len(self.liste_all_images)))
+        self.label_liste_nombre_image.config(text = f"Image {self.index_img + 1} sur {len(self.liste_all_images)}")
         self.precedente_image = str(self.img_dossier + "/" + self.liste_all_images[self.index_img])
         self.img_nom = os.path.basename(self.precedente_image)
         self.affichage_image_label_nom.config(text = self.img_nom)
         self.image = Image.open(self.precedente_image)
         self.s = self.image.size
-        if self.s[0] > 1600 or self.s[1] > 900:
+        if self.s[0] > self.largeur_fenetre_image or self.s[1] > self.hauteur_fenetre_image:
             self.resize_image()
         self.image = ImageTk.PhotoImage(image = self.image)
-        self.affichage_image_label.config(image = self.image, height = 900, width = 1600)
+        self.affichage_image_label.config(image = self.image, height = self.hauteur_fenetre_image, width = self.largeur_fenetre_image)
         self.affichage_image_label.image = self.image
 
 if __name__ == "__main__":
