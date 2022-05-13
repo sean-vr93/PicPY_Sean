@@ -34,7 +34,7 @@ class Lecteur_Image(object):
         self.affichage_image_label = Label(self.affichage_image_frame, background = '#283f4a')
         self.affichage_image_label.pack()
     
-    def afficher_image_choix(self):
+     def afficher_image_choix(self):
         try:
             self.img = tfd.askopenfilename(title = "Choisissez un fichier à renommer", filetypes = self.filetypes)
             self.image = Image.open(self.img)
