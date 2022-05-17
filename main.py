@@ -18,7 +18,7 @@ class Lecteur_Image(object):
         self.fenetre.state('zoomed') #met la fenetre en plein écran fenetré
         # Variables et listes
         self.boutons_apres = False
-        self.filetypes = [("Tous les fichiers","*.*"),(".png","*.png"),(".jpeg","*.jpeg"),(".gif","*.gif"),(".jpg","*.jpg"),(".bmp","*.bmp"),(".ico","*.ico"),(".webp","*.webp")]
+        self.filetypes = [("Tous les fichiers","*.*"),(".png","*.png"),(".jpeg","*.jpeg"),(".gif","*.gif"),(".jpg","*.jpg"),(".bmp","*.bmp"),(".ico","*.ico"),(".webp","*.webp"),(".jfif","*.jfif")]
         # Frame Boutons
         self.affichage_boutons_frame = Frame(self.fenetre, background = '#283f4a')
         self.affichage_boutons_frame.pack(side = TOP, padx = 5, pady = 5)
@@ -49,7 +49,7 @@ class Lecteur_Image(object):
             self.img_dossier_liste = os.listdir(self.img_dossier)
             self.liste_all_images = []
             for item in self.img_dossier_liste:
-                if item.endswith(('.png', '.jpeg', '.gif', '.jpg', '.ico', '.bmp', '.webp')):
+                if item.endswith(('.png', '.jpeg', '.gif', '.jpg', '.ico', '.bmp', '.webp','.jfif')):
                     self.liste_all_images.append(item)
                 else:
                     pass
