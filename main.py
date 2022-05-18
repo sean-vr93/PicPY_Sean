@@ -33,18 +33,19 @@ class Lecteur_Image(object):
         # Label Image -> Frame Image
         self.affichage_image_label = Label(self.affichage_image_frame, background = '#283f4a')
         self.affichage_image_label.pack()
+        self.affichage_image_label.config(height = self.hauteur_fenetre_image, width = self.largeur_fenetre_image)
     
     def afficher_image_choix(self):
         try:
-            self.img = tfd.askopenfilename(title = "Choisissez un fichier à renommer", filetypes = self.filetypes)
+            self.img = tfd.askopenfilename(title = "Sélectionner un image", filetypes = self.filetypes)
             self.image = Image.open(self.img)
             self.s = self.image.size
             if self.s[0] > self.largeur_fenetre_image or self.s[1] > self.hauteur_fenetre_image:
                 self.resize_image()
             self.image = ImageTk.PhotoImage(self.image)
-            self.affichage_image_label.config(image = self.image, height = self.hauteur_fenetre_image, width = self.hauteur_fenetre_image)
+            self.affichage_image_label.config(image = self.image)
             self.img_nom = os.path.basename(self.img)
-            self.affichage_image_label_nom.config(text = self.img_nom)
+            self.affichage_image_label_nom.config(text = f"{self.img_nom} | {self.s[0]}x{self.s[1]}")
             self.img_dossier = os.path.dirname(self.img)
             self.img_dossier_liste = os.listdir(self.img_dossier)
             self.liste_all_images = []
@@ -95,14 +96,14 @@ class Lecteur_Image(object):
         self.label_liste_nombre_image.config(text = f"Image {self.index_img + 1} sur {len(self.liste_all_images)}")
         self.precedente_image = f"{self.img_dossier}/{self.liste_all_images[self.index_img]}"
         self.img_nom = os.path.basename(self.precedente_image)
-        self.affichage_image_label_nom.config(text = self.img_nom)
         self.image = Image.open(self.precedente_image)
         self.s = self.image.size
         if self.s[0] > self.largeur_fenetre_image or self.s[1] > self.hauteur_fenetre_image:
             self.resize_image()
         self.image = ImageTk.PhotoImage(image = self.image)
-        self.affichage_image_label.config(image = self.image, height = self.hauteur_fenetre_image, width = self.largeur_fenetre_image)
+        self.affichage_image_label.config(image = self.image)
         self.affichage_image_label.image = self.image
+        self.affichage_image_label_nom.config(text = f"{self.img_nom} | {self.s[0]}x{self.s[1]}")
 
 if __name__ == "__main__":
     app = Lecteur_Image()
