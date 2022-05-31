@@ -13,7 +13,7 @@ class Lecteur_Image(object):
         self.largeur_fenetre_image = self.largeur_fenetre - 50
         self.hauteur_fenetre_image = self.hauteur_fenetre - 200
         self.fenetre.geometry(f"{self.largeur_fenetre}x{self.hauteur_fenetre}")
-        self.fenetre.title("PyPICTURES")
+        self.fenetre.title("PicPy")
         self.fenetre.config(background = '#283f4a')
         self.fenetre.state('zoomed') #met la fenetre en plein écran fenetré
         # Variables et listes
